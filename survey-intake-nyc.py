@@ -77,6 +77,19 @@ with open('ceSurvey.csv', 'rU') as f:
 
             people.append(person)
 
+        privateGuests = row['Guest email addresses:'].split(',')
+
+        for guestEmail in privateGuests:
+            person = []
+            person.append(guestEmail)
+            person.append(neighborhood)
+            person.append('NY, NJ, CONN')
+            person.append('Yes')
+            person.append('On Tour Sign Up')
+            person.append('Yes')
+
+            people.append(person)
+
     with open("ceSurvey-output.csv", "wb") as surveyF:
         writer = csv.writer(surveyF)
         writer.writerows(people)

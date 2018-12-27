@@ -9,37 +9,32 @@ def zipConvert(zippy):
         return False
 
 people = [[
-            'First Name',
-            'Last Name',
             'Email',
-            'Activity',
-            'Local / Visitor',
-            'Referral Source',
-            'Booking Type',
+            'Previous Neighborhood Activity',
+            'State/Region',
+            'Previous Tour Customer',
+            'Contact Added Via Source',
+            'Gets Tour Marketing Emails'
         ]]
 
 with open('ceSurvey.csv', 'rU') as f:
     reader = csv.DictReader(f)
     for row in reader:
-        neighborhood = row['Neighborhood']
-        bookingType = row['CE type']
+        neighborhood = row['Neighborhood:']
+        bookingType = row['Tour Type']
+        if bookingType == "Private":
+            neighborhood = "Private " + neighborhood
 
         southernCaliforniaGuests = row['Southern California Emails'].split(',')
 
-        for localEmail in southernCaliforniaGuests:
+        for southernCaliforniaEmail in southernCaliforniaGuests:
             person = []
-            person.append('Unknown')
-            person.append('Unknown')
-            person.append(localEmail)
+            person.append(southernCaliforniaEmail)
             person.append(neighborhood)
             person.append('Southern CA')
-            person.append('Previous Customer')
-            if bookingType == 'Private':
-                person.append('Corporate')
-            elif bookingType == 'Public':
-                person.append('General')
-            else:
-                person.append('')
+            person.append('Yes')
+            person.append('On Tour Sign Up')
+            person.append('Yes')
 
             people.append(person)
 
@@ -47,37 +42,25 @@ with open('ceSurvey.csv', 'rU') as f:
 
         for bayAreaEmail in bayAreaGuests:
             person = []
-            person.append('Unknown')
-            person.append('Unknown')
-            person.append(localEmail)
+            person.append(bayAreaEmail)
             person.append(neighborhood)
             person.append('Northern CA')
-            person.append('Previous Customer')
-            if bookingType == 'Private':
-                person.append('Corporate')
-            elif bookingType == 'Public':
-                person.append('General')
-            else:
-                person.append('')
+            person.append('Yes')
+            person.append('On Tour Sign Up')
+            person.append('Yes')
 
             people.append(person)
 
         newYorkAreaGuests = row['NYC tri-state area emails'].split(',')
 
-        for NYCEmails in newYorkAreaGuests:
+        for NYCEmail in newYorkAreaGuests:
             person = []
-            person.append('Unknown')
-            person.append('Unknown')
-            person.append(NYCEmails)
+            person.append(NYCEmail)
             person.append(neighborhood)
             person.append('NY, NJ, CONN')
-            person.append('Previous Customer')
-            if bookingType == 'Private':
-                person.append('Corporate')
-            elif bookingType == 'Public':
-                person.append('General')
-            else:
-                person.append('')
+            person.append('Yes')
+            person.append('On Tour Sign Up')
+            person.append('Yes')
 
             people.append(person)
 
@@ -85,22 +68,27 @@ with open('ceSurvey.csv', 'rU') as f:
 
         for visitorEmail in visitingGuests:
             person = []
-            person.append('Unknown')
-            person.append('Unknown')
             person.append(visitorEmail)
             person.append(neighborhood)
             person.append('')
-            person.append('Previous Customer')
-            if bookingType == 'Private':
-                person.append('Corporate')
-            elif bookingType == 'Public':
-                person.append('General')
-            else:
-                person.append('')
+            person.append('Yes')
+            person.append('On Tour Sign Up')
+            person.append('Yes')
 
             people.append(person)
 
+        privateGuests = row['Guest email addresses:'].split(',')
 
+        for guestEmail in privateGuests:
+            person = []
+            person.append(guestEmail)
+            person.append(neighborhood)
+            person.append('Southern CA')
+            person.append('Yes')
+            person.append('On Tour Sign Up')
+            person.append('Yes')
+
+            people.append(person)
 
     with open("ceSurvey-output.csv", "wb") as surveyF:
         writer = csv.writer(surveyF)
